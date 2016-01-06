@@ -29,13 +29,35 @@ HanoiGame.prototype.isValidMove = function(startTowerIdx, endTowerIdx) {
   else { return false; }
 };
 
+HanoiGame.prototype.isWon = function() {
+  return (this.stacks[2].length == 3) || (this.stacks[1].length == 3);
+};
+
+HanoiGame.prototype.move = function (startTowerIdx, endTowerIdx) {
+  if (this.isValidMove(startTowerIdx, endTowerIdx)) {
+    this.stacks[endTowerIdx].push(this.stacks[startTowerIdx].pop());
+    return true;
+  }
+  return false;
+};
+
+
+
+
+
 var test =  new HanoiGame;
-var readline = require('readline');
-var reader = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-test.promptMove(reader, function (a,b) {
-  console.log(a, b);
-  reader.close();
-});
+// var readline = require('readline');
+// var reader = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout
+// });
+// test.promptMove(reader, function (a,b) {
+//   console.log(a, b);
+//   reader.close();
+// });
+test.move(0, 1);
+test.move(0, 2);
+test.move(1, 2);
+test.move(0, 1);
+test.move(2, 0);
+console.log(test.stacks);
