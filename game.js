@@ -17,6 +17,17 @@ HanoiGame.prototype.promptMove = function(reader, callback) {
   });
 };
 
+HanoiGame.prototype.isValidMove = function(startTowerIdx, endTowerIdx) {
+  if (this.stacks[startTowerIdx].length > 0) {
+    if (this.stacks[endTowerIdx].length > 0) {
+      var lastIdxStart = this.stacks[startTowerIdx].length - 1;
+      var lastIdxEnd = this.stacks[endTowerIdx].length - 1;
+      return this.stacks[startTowerIdx][lastIdxStart] < this.stacks[endTowerIdx][lastIdxEnd];
+    }
+    else { return true; }
+  }
+  else { return false; }
+};
 
 var test =  new HanoiGame;
 var readline = require('readline');
