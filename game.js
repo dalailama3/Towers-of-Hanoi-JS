@@ -41,23 +41,30 @@ HanoiGame.prototype.move = function (startTowerIdx, endTowerIdx) {
   return false;
 };
 
+HanoiGame.prototype.run = function (reader, CompletionCallback) {
+  this.promptMove(reader, (function (startTowerIdx, endTowerIdx) {
+    if (!this.move(startTowerIdx, endTowerIdx)) {
+      console.log("Invalid move!");
+    }
+    if (!this.isWon()) {
+      this.run(reader, CompletionCallback);
+    } else {
+      this.print();
+      console.log("You win!");
+      CompletionCallback();
+    }
+  }).bind(this));
+};
 
 
 
 
 var test =  new HanoiGame;
-// var readline = require('readline');
-// var reader = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout
-// });
-// test.promptMove(reader, function (a,b) {
-//   console.log(a, b);
-//   reader.close();
-// });
-test.move(0, 1);
-test.move(0, 2);
-test.move(1, 2);
-test.move(0, 1);
-test.move(2, 0);
-console.log(test.stacks);
+var readline = require('readline');
+var reader = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+test.run(reader, function () {
+  reader.close();
+});
